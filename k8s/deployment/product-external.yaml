@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-external-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: product-external
+  template:
+    metadata:
+      labels:
+        app: product-external
+    spec:
+      containers:
+      - name: api
+        image: albertsiempre/product-external:latest
+        ports:
+        - containerPort: 9999
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: product-external-service
+  labels:
+    app: product-external-service
+spec:
+  ports:
+  - port: 80
+    name: http
+    targetPort: 9999
+  selector:
+    app: product-external

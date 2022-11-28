@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: product-external
+  namespace: default
+  # annotations:
+  #   konghq.com/plugins: jwt-auth,external-acl
+spec:
+  ingressClassName: kong
+  rules:
+  - http:
+      paths:
+      - path: /product
+        pathType: Prefix
+        backend:
+          service:
+            name: product-external-service
+            port:
+              number: 80

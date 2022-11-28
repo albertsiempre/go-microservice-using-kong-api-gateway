@@ -1,0 +1,9 @@
+apiVersion: configuration.konghq.com/v1
+kind: KongPlugin
+metadata:
+  name: external-acl
+config: 
+  allow:
+  - app-external
+  hide_groups_header: true
+plugin: acl

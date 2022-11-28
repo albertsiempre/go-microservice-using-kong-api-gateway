@@ -1,0 +1,10 @@
+apiVersion: configuration.konghq.com/v1
+kind: KongConsumer
+metadata:
+  name: api-internal
+  annotations:
+    kubernetes.io/ingress.class: kong
+username: api-internal
+credentials:
+  - app-internal-jwt #secret name when creating jwt secret
+  - app-internal-acl #secret name when creating acl secret

@@ -1,0 +1,35 @@
+ARG GO_VERSION=1.17
+
+FROM golang:${GO_VERSION}-alpine AS builder
+
+RUN apk add --update tzdata
+ENV TZ="Asia/Jakarta"
+
+RUN apk update && apk add alpine-sdk git && rm -rf /var/cache/apk/*
+
+RUN mkdir -p /src
+WORKDIR /src
+
+COPY go.mod .
+COPY go.sum .
+RUN go mod download
+
+COPY . .
+RUN go build -o ./auth ./main.go
+
+FROM alpine:latest
+
+RUN apk add --update tzdata
+ENV TZ="Asia/Jakarta"
+RUN apk update && apk add ca-certificates && rm -rf /var/cache/apk/*
+
+RUN mkdir -p /src
+WORKDIR /src
+COPY --from=builder /src/auth .
+COPY --from=builder /usr/share/zoneinfo /usr/share/zoneinfo
+
+RUN chmod +x ./auth
+
+EXPOSE 7777
+
+CMD ./auth

@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-internal-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-internal
+  template:
+    metadata:
+      labels:
+        app: auth-internal
+    spec:
+      containers:
+      - name: api
+        image: albertsiempre/auth-internal:latest
+        ports:
+        - containerPort: 8889
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-internal-service
+  labels:
+    app: auth-internal-service
+spec:
+  ports:
+  - port: 80
+    name: http
+    targetPort: 8889
+  selector:
+    app: auth-internal

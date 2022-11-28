@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-external-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-external
+  template:
+    metadata:
+      labels:
+        app: auth-external
+    spec:
+      containers:
+      - name: api
+        image: albertsiempre/auth-external:latest
+        ports:
+        - containerPort: 8888
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-external-service
+  labels:
+    app: auth-external-service
+spec:
+  ports:
+  - port: 80
+    name: http
+    targetPort: 8888
+  selector:
+    app: auth-external

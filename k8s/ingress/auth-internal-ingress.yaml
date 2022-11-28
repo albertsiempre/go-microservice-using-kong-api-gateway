@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: auth-internal
+  namespace: default
+  annotations:
+    konghq.com/plugins: jwt-auth,internal-acl
+spec:
+  ingressClassName: kong
+  rules:
+  - http:
+      paths:
+      - path: /auth/intl
+        pathType: Prefix
+        backend:
+          service:
+            name: auth-internal-service
+            port:
+              number: 80
