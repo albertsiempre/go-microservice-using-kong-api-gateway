@@ -4,6 +4,6 @@ metadata:
   name: internal-acl
 config: 
   allow:
-  - app-internal
+  - app-internal #group of acl secret
   hide_groups_header: true
 plugin: acl

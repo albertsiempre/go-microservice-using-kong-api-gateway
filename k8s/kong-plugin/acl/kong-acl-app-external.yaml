@@ -4,6 +4,6 @@ metadata:
   name: external-acl
 config: 
   allow:
-  - app-external
+  - app-external #group of acl secret
   hide_groups_header: true
 plugin: acl
